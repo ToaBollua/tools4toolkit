@@ -29,3 +29,5 @@ def calculate_imc():
 
     else:
         print("You have no salvation my child")
+        
+calculate_imc()
