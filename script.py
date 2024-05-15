@@ -33,6 +33,7 @@ class Functions:
             print(f"{num} x {i} = {num * i}")
 
 def use_menu():
+    os.system("cls")
     func = Functions()
     menu = True
     while menu:
