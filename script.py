@@ -2,28 +2,23 @@ import sys
 import subprocess
 
 try:
-    import qrcode
+    import barcode
+    from barcode.writer import ImageWriter
+    from PIL import Image
 except ImportError:
-    print("qrcode library is not installed. Installing...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "qrcode"])
-    print("qrcode library installed successfully!")
-    import qrcode
+    print("python-barcode or Pillow library is not installed. Installing...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "python-barcode", "Pillow"])
+    print("python-barcode and Pillow libraries installed successfully!")
+    import barcode
+    from barcode.writer import ImageWriter
+    from PIL import Image
 
-def generate_qr_code():
-    user_input = input("Enter the text or URL to generate a QR code: ")
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(user_input)
-    qr.make(fit=True)
+def generate_barcode():
+    user_input = input("Enter the data to generate a barcode: ")
+    EAN = barcode.EAN13(user_input, writer=ImageWriter())
+    filename = EAN.save(user_input)
 
-    img = qr.make_image(fill_color="black", back_color="white")
-    img.save("qr_code.png")
-
-    print("QR code generated and saved as qr_code.png")
+    print(f"Barcode generated and saved as {filename}")
 
 if __name__ == "__main__":
-    generate_qr_code()
+    generate_barcode()
